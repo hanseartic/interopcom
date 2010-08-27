@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -38,8 +37,47 @@ namespace InteropComObjects.IO.Ports {
         /// <summary>Discards data from the serial driver's transmit buffer.
         /// </summary>
         void DiscardOutBuffer();
+        /// <summary>Synchronously reads one byte from the <see cref="System.IO.Ports.SerialPort"/>
+        /// input buffer.
+        /// </summary>
+        /// <returns>The byte, cast to an <see cref="Int32"/>, or -1 if the end of the stream has been read.</returns>
+        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
+        /// <exception cref="TimeoutException">
+        /// The operation did not complete before the time-out period ended.
+        /// - or -
+        /// No byte was read.
+        /// </exception>
+        /// /// <remarks>
+        /// This method reads one byte.
+        /// 
+        /// Use caution when using ReadByte and <see cref="ReadChar"/> together. Switching between reading bytes and reading characters can cause
+        /// extra data to be read and/or other unintended behavior. If it is necessary to switch between reading text and reading 
+        /// binary data from the stream, select a protocol that carefully defines the boundary between text and binary data, such as
+        /// manually reading bytes and decoding the data.
+        /// </remarks>
         int ReadByte();
+        /// <summary>Synchronously reads one character from the <see cref="System.IO.Ports.SerialPort"/>
+        /// input buffer.
+        /// </summary>
+        /// <returns>The character that was read.</returns>
+        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
+        /// <exception cref="TimeoutException">
+        /// The operation did not complete before the time-out period ended.
+        /// - or -
+        /// No character was available in the allotted time-out period.
+        /// </exception>
+        /// <remarks>
+        /// This method reads one complete character based on the encoding.
+        /// 
+        /// Use caution when using <see cref="ReadByte"/> and ReadChar together. Switching between reading bytes and reading characters can cause
+        /// extra data to be read and/or other unintended behavior. If it is necessary to switch between reading text and reading 
+        /// binary data from the stream, select a protocol that carefully defines the boundary between text and binary data, such as
+        /// manually reading bytes and decoding the data.
+        /// </remarks>
         int ReadChar();
+        /// <summary>Reads all immediately available bytes, based on the encoding, in both the stream and the input buffer of the SerialPort object.
+        /// </summary>
+        /// <returns>The contents of the stream and the input buffer of the SerialPort object.</returns>
         String ReadExisting();
         /// <summary>Reads up to the <see cref="System.IO.Ports.SerialPort.NewLine"/>
         /// value in the input buffer.

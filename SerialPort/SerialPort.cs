@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,7 +12,7 @@ namespace InteropComObjects.IO.Ports {
     ComSourceInterfaces(typeof(ISerialPortEvents))]
     public class SerialPort : ISerialPort {
 
-        private System.IO.Ports.SerialPort selectedPort;
+        private readonly System.IO.Ports.SerialPort selectedPort;
         private String[] portNames;
         private static Dictionary<int, string> errors;
 
@@ -136,6 +134,9 @@ namespace InteropComObjects.IO.Ports {
             if (null != selectedPort) return selectedPort.ReadChar();
             throw new InvalidOperationException("No active port.");
         }
+        /// <summary>Reads all immediately available bytes, based on the encoding, in both the stream and the input buffer of the SerialPort object.
+        /// </summary>
+        /// <returns>The contents of the stream and the input buffer of the SerialPort object.</returns>
         public string ReadExisting() {
             if (null != selectedPort) return selectedPort.ReadExisting();
             throw new InvalidOperationException("No active port.");
@@ -181,7 +182,7 @@ namespace InteropComObjects.IO.Ports {
         /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
         public void Write(byte[] buffer, int offset, int count) {
             if (null != selectedPort) selectedPort.Write(buffer, offset, count);
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         /// <summary>Writes a specified number of characters to the serial port using data from a buffer.
         /// </summary>
@@ -195,7 +196,7 @@ namespace InteropComObjects.IO.Ports {
         /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
         public void Write(char[] buffer, int offset, int count) {
             if (null != selectedPort) selectedPort.Write(buffer, offset, count);
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         /// <summary>Writes the specified string to the serial port.
         /// </summary>
@@ -205,7 +206,7 @@ namespace InteropComObjects.IO.Ports {
         /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
         public void Write(string value) {
             if (null != selectedPort) selectedPort.Write(value);
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         /// <summary>Writes the specified string and the NewLine value to the output buffer.
         /// </summary>
@@ -215,7 +216,7 @@ namespace InteropComObjects.IO.Ports {
         /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
         public void WriteLine(string value) {
             if (null != selectedPort) selectedPort.WriteLine(value);
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         #endregion
 
