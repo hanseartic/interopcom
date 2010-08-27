@@ -17,13 +17,10 @@ namespace InteropComObjects.IO.Ports {
         private System.IO.Ports.SerialPort selectedPort;
         private String[] portNames;
         private static Dictionary<int, string> errors;
-        private Queue<string> inQueue;
-        //private Queue<byte> outQueue;
 
         public SerialPort() {
             selectedPort = new System.IO.Ports.SerialPort();
             errors = new Dictionary<int, string>();
-            inQueue = new Queue<string>();
         }
 
         #region SerialPort-Wrapper
@@ -556,15 +553,7 @@ namespace InteropComObjects.IO.Ports {
 
         private readonly AutoResetEvent sleepAutoResetEvent = new AutoResetEvent(false);
         public void Sleep(int length) {
-            //Timer sleepTimer = new Timer(tick, null, 0, length);
             sleepAutoResetEvent.WaitOne(length);
-        }
-        public string ReadString() {
-            try {
-                return inQueue.Dequeue();
-            } catch {
-                return string.Empty;
-            }
         }
 
         public String Device { get; set; }

@@ -10,7 +10,6 @@ namespace InteropComObjects.IO.Ports {
         int LastError { get; }
 
         void Sleep(int length);
-        string ReadString();
         int GetDeviceCount();
         object GetDevice(int deviceNumber);
         String GetErrorDescription(int errorId);
