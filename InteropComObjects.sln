@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPort", "SerialPort\SerialPort.csproj", "{A4755B72-0D64-4D83-9586-E35DBB5631BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLSerialPort", "SLSerialPort\SLSerialPort.csproj", "{4894AFBE-5F41-4560-B15E-EEFB2035843A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{A4755B72-0D64-4D83-9586-E35DBB5631BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4755B72-0D64-4D83-9586-E35DBB5631BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4755B72-0D64-4D83-9586-E35DBB5631BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4894AFBE-5F41-4560-B15E-EEFB2035843A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4894AFBE-5F41-4560-B15E-EEFB2035843A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4894AFBE-5F41-4560-B15E-EEFB2035843A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4894AFBE-5F41-4560-B15E-EEFB2035843A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
