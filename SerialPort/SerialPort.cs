@@ -7,6 +7,8 @@ using System.Threading;
 
 namespace InteropComObjects.IO.Ports {
 
+    /// <summary>Makes the serial ports COM accessible
+    /// </summary>
     [Guid("30E24601-6E65-4FAF-9999-2B135F0B512F"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ISerialPortEvents))]
@@ -16,6 +18,8 @@ namespace InteropComObjects.IO.Ports {
         private String[] portNames;
         private static Dictionary<int, string> errors;
 
+        /// <summary>Initializes a new COM accesible object of a serial port
+        /// </summary>
         public SerialPort() {
             selectedPort = new System.IO.Ports.SerialPort();
             errors = new Dictionary<int, string>();
@@ -68,7 +72,6 @@ namespace InteropComObjects.IO.Ports {
                 selectedPort.Open();
             }
         }
-
         /// <summary>Closes the port connection, sets the
         /// <see cref="System.IO.Ports.SerialPort.IsOpen"/> Property to false,
         ///  and disposes of the internal <see cref="System.IO.Stream"/> object.
@@ -542,27 +545,43 @@ namespace InteropComObjects.IO.Ports {
 
         #endregion Instance Members
         #endregion SerialPort-Wrapper
-
+        /// <summary>Gets the number of available serial-ports.
+        /// </summary>
+        /// <returns>The number of available serial-ports.</returns>
         public int GetDeviceCount() {
             portNames = System.IO.Ports.SerialPort.GetPortNames();
             return portNames.Length;
         }
-
+        /// <summary>Returns the name of the serial port with the given id.
+        /// </summary>
+        /// <param name="deviceNumber">The number of the device</param>
+        /// <returns>The name of the serial port</returns>
         public object GetDevice(int deviceNumber) {
             return portNames[deviceNumber];
         }
-
+        /// <summary>An event to enable the Sleep-timer
+        /// </summary>
         private readonly AutoResetEvent sleepAutoResetEvent = new AutoResetEvent(false);
+        /// <summary>Provides a blocking sleep-method that waits the given 
+        /// number of milliseconds before returning.
+        /// </summary>
+        /// <param name="length">The number of milliseconds to wait.</param>
         public void Sleep(int length) {
             sleepAutoResetEvent.WaitOne(length);
         }
-
+        /// <summary>Gets or sets the serial port to use
+        /// </summary>
         public String Device { get; set; }
-
+        /// <summary>Gets the id of the last error, that occured
+        /// </summary>
         public int LastError {
             get { return errors.Count - 1; }
         }
-
+        /// <summary>Gets the message of the error with the given id (count)
+        /// </summary>
+        /// <param name="errorId">The number of the error</param>
+        /// <returns>The error message</returns>
+        /// <remarks>You can retrieve the last error-id via the <see cref="LastError"/> Property</remarks>
         public String GetErrorDescription(int errorId) {
             String result = string.Empty;
             errors.TryGetValue(errorId, out result);

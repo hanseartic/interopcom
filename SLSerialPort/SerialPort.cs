@@ -2,32 +2,63 @@
 
 namespace System.IO.Ports {
     
+    /// <summary>Makes serial ports accessible to SL4 application through
+    /// COM interop functions and provides a nearly complete wrapper
+    /// to the .NET System.IO.Ports.SerialPort class.
+    /// </summary>
     public class SerialPort {
 
         private dynamic serialPort;
 
         #region Constructors
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class.
+        /// </summary>
         public SerialPort() {
             RegisterCom();
         }
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class using the specified port name.
+        /// </summary>
+        /// <param name="portName">The port to use (for example, COM1)</param>
         public SerialPort(string portName) : this() {
             PortName = portName;
         }
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class using the specified port name and baud rate.
+        /// </summary>
+        /// <param name="portName">The port to use (for example, COM1)</param>
+        /// <param name="baudRate">The baud rate</param>
         public SerialPort(string portName, int baudRate) : this() {
             PortName = portName;
             BaudRate = baudRate;
         }
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class using the specified port name, baud rate, and parity bit.
+        /// </summary>
+        /// <param name="portName">The port to use (for example, COM1)</param>
+        /// <param name="baudRate">The baud rate</param>
+        /// <param name="parity">One of the <see cref="Parity"/> values</param>
         public SerialPort(string portName, int baudRate, Parity parity) : this() {
             PortName = portName;
             BaudRate = baudRate;
             Parity = parity;
         }
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class using the specified port name, baud rate, parity bit, and data bits.
+        /// </summary>
+        /// <param name="portName">The port to use (for example, COM1)</param>
+        /// <param name="baudRate">The baud rate</param>
+        /// <param name="parity">One of the <see cref="Parity"/> values</param>
+        /// <param name="dataBits">The data bits value</param>
         public SerialPort(string portName, int baudRate, Parity parity, int dataBits) :this() {
             PortName = portName;
             BaudRate = baudRate;
             Parity = parity;
             DataBits = dataBits;
         }
+        /// <summary>Initializes a new instance of the <see cref="SerialPort"/> class using the specified port name, baud rate, parity bit, data bits, and stop bit.
+        /// </summary>
+        /// <param name="portName">The port to use (for example, COM1)</param>
+        /// <param name="baudRate">The baud rate</param>
+        /// <param name="parity">One of the <see cref="Parity"/> values</param>
+        /// <param name="dataBits">The data bits value</param>
+        /// <param name="stopBits">One of the <see cref="StopBits"/> values</param>
         public SerialPort(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) :this() {
             PortName = portName;
             BaudRate = baudRate;
@@ -37,6 +68,8 @@ namespace System.IO.Ports {
         }
         #endregion
 
+        /// <summary>Accesses the COM interop object for serial port communication
+        /// </summary>
         private void RegisterCom() {
             try {
                 serialPort = AutomationFactory.GetObject("InteropComObjects.IO.Ports.SerialPort");
@@ -50,29 +83,51 @@ namespace System.IO.Ports {
         }
 
         #region Events
+        /// <summary>Represents the method that will handle the data received event of a <see cref="SerialPort"/> object.
+        /// </summary>
         public event SerialDataReceivedEventHandler DataReceived;
+        /// <summary>Represents the method that handles the error event of a <see cref="SerialPort"/> object.
+        /// </summary>
         public event SerialErrorReceivedEventHandler ErrorReceived;
+        /// <summary>Represents the method that will handle the serial pin changed event of a <see cref="SerialPort"/> object.
+        /// </summary>
         public event SerialPinChangedEventHandler PinChanged;
 
+        /// <summary>Represents the method that will handle the data received event of a dynamic COM-interoped <see cref="SerialPort"/> object.
+        /// </summary>
         private AutomationEvent serialDataReceived;
+        /// <summary>Represents the method that handles the error event of a dynamic COM-interoped <see cref="SerialPort"/> object.
+        /// </summary>
         private AutomationEvent serialErrorReceived;
+        /// <summary>Represents the method that will handle the serial pin changed event of a dynamic COM-interoped <see cref="SerialPort"/> object.
+        /// </summary>
         private AutomationEvent serialPinChanged;
 
+        /// <summary>Passes the <see cref="serialDataReceived"/> up through the <see cref="DataReceived"/> event.
+        /// </summary>
+        /// <param name="sender">The sender of the automation event</param>
+        /// <param name="e">The event-args contain the original <see cref="SerialDataReceivedEventArgs"/> as param-array</param>
         private void OnSerialDataReceived(object sender, AutomationEventArgs e) {
             try {
                 var args = new SerialDataReceivedEventArgs { EventType = (SerialData)(e.Arguments[1]) };
                 DataReceived(this, args);
             } catch (NullReferenceException) {} // no subscriber
         }
-
-        void OnSerialErrorReceived(object sender, AutomationEventArgs e) {
+        /// <summary>Passes the <see cref="serialErrorReceived"/> up through the <see cref="ErrorReceived"/> event.
+        /// </summary>
+        /// <param name="sender">The sender of the automation event</param>
+        /// <param name="e">The event-args contain the original <see cref="SerialErrorReceivedEventArgs"/> as param-array</param>
+        private void OnSerialErrorReceived(object sender, AutomationEventArgs e) {
             try {
                 var args = new SerialErrorReceivedEventArgs { EventType = (SerialData)(e.Arguments[1]) };
                 ErrorReceived(e.Arguments[0], args);
             } catch (NullReferenceException) { } // no subscriber
         }
-
-        void OnSerialPinChanged(object sender, AutomationEventArgs e) {
+        /// <summary>Passes the <see cref="serialPinChanged"/> up through the <see cref="PinChanged"/> event.
+        /// </summary>
+        /// <param name="sender">The sender of the automation event</param>
+        /// <param name="e">The event-args contain the original <see cref="SerialPinChangedEventArgs"/> as param-array</param>
+        private void OnSerialPinChanged(object sender, AutomationEventArgs e) {
             try {
                 var args = new SerialPinChangedEventArgs { EventType = (SerialData)(e.Arguments[1]) };
                 PinChanged(e.Arguments[0], args);
@@ -87,7 +142,6 @@ namespace System.IO.Ports {
             if (null != serialPort) return serialPort.GetPortNames();
             throw new InteropException();
         }
-
         /// <summary>Opens a new serial port connection.
         /// </summary>
         /// <exception cref="UnauthorizedAccessException">
@@ -95,7 +149,7 @@ namespace System.IO.Ports {
         /// because of an I/O error or a specific type of security error.
         /// </exception>
         /// <exception cref="IOException">The exception that is thrown when an
-        /// I/O error occurs.</exception>
+        /// I/O error occurs</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// The exception that is thrown when the value of an argument is outside
         /// the allowable range of values as defined by the invoked method.
@@ -108,7 +162,7 @@ namespace System.IO.Ports {
         /// The exception that is thrown when a method call is invalid for the
         /// object's current state.
         /// </exception>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public void Open() {
             if (null != serialPort) {
                 serialDataReceived = AutomationFactory.GetEvent(serialPort, "DataReceived");
@@ -149,22 +203,22 @@ namespace System.IO.Ports {
         /// <summary>Reads a number of bytes from the <see cref="System.IO.Ports.SerialPort"/>
         /// input buffer and writes those bytes into a byte array at the specified offset.
         /// </summary>
-        /// <param name="buffer">The byte array to write the input to.</param>
-        /// <param name="offset">The offset in the buffer array to begin writing.</param>
+        /// <param name="buffer">The byte array to write the input to</param>
+        /// <param name="offset">The offset in the buffer array to begin writing</param>
         /// <param name="count">The number of bytes to read. </param>
         /// <returns>The number of bytes read.</returns>
-        /// <exception cref="ArgumentNullException">The buffer passed is null.</exception>
+        /// <exception cref="ArgumentNullException">The buffer passed is null</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// The offset or count parameters are outside a valid region of the buffer being passed.
-        /// Either offset or count is less than zero.</exception>
+        /// Either offset or count is less than zero</exception>
         /// <exception cref="ArgumentException">
         /// Offset plus count is greater than the length of the buffer.
         /// - or -
         /// Count is 1 and there is a surrogate character in the buffer.
         /// </exception>
-        /// <exception cref="TimeoutException">No bytes were available to read.</exception>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="TimeoutException">No bytes were available to read</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public int Read(byte[] buffer, int offset, int count) {
             if (null != serialPort) {
                 try {
@@ -195,11 +249,11 @@ namespace System.IO.Ports {
         /// <summary>Reads a number of characters from the <see cref="System.IO.Ports.SerialPort"/>
         ///  input buffer and writes them into an array of characters at a given offset.
         /// </summary>
-        /// <param name="buffer">The character array to write the input to.</param>
-        /// <param name="offset">The offset in the buffer array to begin writing.</param>
-        /// <param name="count">The number of characters to read.</param>
+        /// <param name="buffer">The character array to write the input to</param>
+        /// <param name="offset">The offset in the buffer array to begin writing</param>
+        /// <param name="count">The number of characters to read</param>
         /// <returns>The number of characters read.</returns>
-        /// <exception cref="ArgumentNullException">The buffer passed is null.</exception>
+        /// <exception cref="ArgumentNullException">The buffer passed is null</exception>
         /// <exception cref="ArgumentException">
         /// Offset plus count is greater than the length of the buffer.
         /// - or -
@@ -207,10 +261,10 @@ namespace System.IO.Ports {
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// The offset or count parameters are outside a valid region of the buffer being passed.
-        /// Either offset or count is less than zero.</exception>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
-        /// <exception cref="TimeoutException">No characters were available to read.</exception>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// Either offset or count is less than zero</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="TimeoutException">No characters were available to read</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public int Read(char[] buffer, int offset, int count) {
             if (null != serialPort) {
                 try {
@@ -245,7 +299,7 @@ namespace System.IO.Ports {
         /// input buffer.
         /// </summary>
         /// <returns>The byte, cast to an <see cref="Int32"/>, or -1 if the end of the stream has been read.</returns>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
         /// <exception cref="TimeoutException">
         /// The operation did not complete before the time-out period ended.
         /// - or -
@@ -273,7 +327,7 @@ namespace System.IO.Ports {
         /// input buffer.
         /// </summary>
         /// <returns>The character that was read.</returns>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
         /// <exception cref="TimeoutException">
         /// The operation did not complete before the time-out period ended.
         /// - or -
@@ -300,7 +354,7 @@ namespace System.IO.Ports {
         /// <summary>Reads all immediately available bytes, based on the encoding, in both the stream and the input buffer of the SerialPort object.
         /// </summary>
         /// <returns>The contents of the stream and the input buffer of the SerialPort object.</returns>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public string ReadExisting() {
             if (null != serialPort) return serialPort.ReadExisting();
             throw new InteropException();
@@ -316,7 +370,7 @@ namespace System.IO.Ports {
         /// - or -
         /// No bytes were read.
         /// </exception>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public string ReadLine() {
             try {
                 if (null != serialPort) {
@@ -330,13 +384,13 @@ namespace System.IO.Ports {
         }
         /// <summary>Reads a string up to the specified value in the input buffer.
         /// </summary>
-        /// <param name="value">A value that indicates where the read operation stops.</param>
+        /// <param name="value">A value that indicates where the read operation stops</param>
         /// <returns>The contents of the input buffer up to the specified value.</returns>
-        /// <exception cref="ArgumentException">The length of the value parameter is 0.</exception>
-        /// <exception cref="ArgumentNullException">The value parameter is null.</exception>
+        /// <exception cref="ArgumentException">The length of the value parameter is 0</exception>
+        /// <exception cref="ArgumentNullException">The value parameter is null</exception>
         /// <exception cref="InvalidOperationException">The specified port is not open. </exception>
-        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public string ReadTo(string value) {
             try {
                 if (null != serialPort) {
@@ -348,22 +402,31 @@ namespace System.IO.Ports {
             }
             throw new InteropException();
         }
+        /// <summary>Writes a specified number of bytes to the serial port using data from a buffer.
+        /// </summary>
+        /// <param name="buffer">The byte array that contains the data to write to the port</param>
+        /// <param name="offset">The zero-based byte offset in the buffer parameter at which to begin copying bytes to the port</param>
+        /// <param name="count">The number of bytes to write</param>
+        /// <exception cref="ArgumentNullException">The buffer passed is null</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The offset or count parameters are outside a valid region of the buffer being passed. Either offset or count is less than zero</exception>
+        /// <exception cref="ArgumentException">offset plus count is greater than the length of the buffer</exception>
+        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
         public void Write(byte[] buffer, int offset, int count) {
             if (null != serialPort) serialPort.Write(buffer, offset, count);
             else throw new InteropException();
         }
         /// <summary>Writes a specified number of characters to the serial port using data from a buffer.
         /// </summary>
-        /// <param name="buffer">The character array that contains the data to write to the port.</param>
-        /// <param name="offset">The zero-based byte offset in the buffer parameter at which to begin copying bytes to the port.</param>
-        /// <param name="count">The number of characters to write.</param>
-        /// <exception cref="ArgumentNullException">The buffer passed is null.</exception>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">The offset or count parameters are outside a valid region of the buffer being passed. Either offset or count is less than zero.</exception>
-        /// <exception cref="ArgumentException">offset plus count is greater than the length of the buffer.</exception>
-        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
-        public void Write(char[] buffer, int offset, int count) {
-            
+        /// <param name="buffer">The character array that contains the data to write to the port</param>
+        /// <param name="offset">The zero-based byte offset in the buffer parameter at which to begin copying bytes to the port</param>
+        /// <param name="count">The number of characters to write</param>
+        /// <exception cref="ArgumentNullException">The buffer passed is null</exception>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The offset or count parameters are outside a valid region of the buffer being passed. Either offset or count is less than zero</exception>
+        /// <exception cref="ArgumentException">offset plus count is greater than the length of the buffer</exception>
+        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
+        public void Write(char[] buffer, int offset, int count) {       
             if (null == buffer)
                 throw new ArgumentNullException("buffer", "The buffer passed is null.");
             if (count + offset > buffer.Length)
@@ -391,20 +454,20 @@ namespace System.IO.Ports {
         }
         /// <summary>Writes the specified string to the serial port.
         /// </summary>
-        /// <param name="value">The string for output.</param>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
-        /// <exception cref="ArgumentNullException">The string passed is null.</exception>
-        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
+        /// <param name="value">The string for output</param>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="ArgumentNullException">The string passed is null</exception>
+        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
         public void Write(string value) {
             var buffer = value.ToCharArray();
             Write(buffer, 0, buffer.Length);
         }
         /// <summary>Writes the specified string and the NewLine value to the output buffer.
         /// </summary>
-        /// <param name="value">The string to write to the output buffer.</param>
-        /// <exception cref="InvalidOperationException">The specified port is not open.</exception>
-        /// <exception cref="ArgumentNullException">The string passed is null.</exception>
-        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended.</exception>
+        /// <param name="value">The string to write to the output buffer</param>
+        /// <exception cref="InvalidOperationException">The specified port is not open</exception>
+        /// <exception cref="ArgumentNullException">The string passed is null</exception>
+        /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
         public void WriteLine(string value) {
             Write(value + serialPort.NewLine);
         }
@@ -418,7 +481,7 @@ namespace System.IO.Ports {
         }
         /// <summary>Gets or sets the signal baud rate.
         /// </summary>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public int BaudRate {
             get {
                 if (null != serialPort) return serialPort.BaudRate;
@@ -513,7 +576,8 @@ namespace System.IO.Ports {
             }
             set { if (null != serialPort) serialPort.DtrEnable = value; }
         }
-        /// <summary>Gets or sets the byte encoding for pre- and post-transmission
+        /// <summary>Not Implemented!
+        /// Gets or sets the byte encoding for pre- and post-transmission
         /// conversion of text.
         /// </summary>
         public string Encoding {
@@ -528,7 +592,7 @@ namespace System.IO.Ports {
         }
         /// <summary>Gets or sets the handshaking protocol for serial port transmission of data.
         /// </summary>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public Handshake Handshake {
             get {
                 if (null != serialPort) return Enum.Parse(typeof(Handshake), serialPort.Handshake.ToString(), true);
@@ -561,7 +625,7 @@ namespace System.IO.Ports {
         }
         /// <summary>Gets or sets the parity-checking protocol.
         /// </summary>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public Parity Parity {
              get {
                  if (null != serialPort) return Enum.Parse(typeof(Parity), serialPort.Parity.ToString(), true);
@@ -575,7 +639,7 @@ namespace System.IO.Ports {
         /// <summary>Gets or sets the byte that replaces invalid bytes in a data stream
         /// when a parity error occurs.
         /// </summary>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public byte ParityReplace {
             get {
                 if (null != serialPort) return serialPort.ParityReplace;
@@ -634,7 +698,7 @@ namespace System.IO.Ports {
         }
         /// <summary>Gets or sets the standard number of stopbits per byte.
         /// </summary>
-        /// <exception cref="InteropException">The COM object was not initialized correctly.</exception>
+        /// <exception cref="InteropException">The COM object was not initialized correctly</exception>
         public StopBits StopBits {
             get {
                 if (null != serialPort) return Enum.Parse(typeof(StopBits), serialPort.StopBits.ToString(), true);
