@@ -46,7 +46,7 @@ namespace System.IO.Ports {
         /// <param name="baudRate">The baud rate</param>
         /// <param name="parity">One of the <see cref="Parity"/> values</param>
         /// <param name="dataBits">The data bits value</param>
-        public SerialPort(string portName, int baudRate, Parity parity, int dataBits) :this() {
+        public SerialPort(string portName, int baudRate, Parity parity, int dataBits) : this() {
             PortName = portName;
             BaudRate = baudRate;
             Parity = parity;
@@ -59,7 +59,7 @@ namespace System.IO.Ports {
         /// <param name="parity">One of the <see cref="Parity"/> values</param>
         /// <param name="dataBits">The data bits value</param>
         /// <param name="stopBits">One of the <see cref="StopBits"/> values</param>
-        public SerialPort(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) :this() {
+        public SerialPort(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) : this() {
             PortName = portName;
             BaudRate = baudRate;
             Parity = parity;
@@ -76,8 +76,8 @@ namespace System.IO.Ports {
             } catch (Exception) { // not yet running
                 try {
                     serialPort = AutomationFactory.CreateObject("InteropComObjects.IO.Ports.SerialPort");
-                } catch (Exception) { // not found
-                    throw new InteropException();
+                } catch (Exception exception) { // not found
+                    throw new InteropException("Error registering the interop COM object. See inner Exception for details.", exception);
                 }
             }
         }
