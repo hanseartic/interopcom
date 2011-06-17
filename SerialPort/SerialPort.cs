@@ -53,21 +53,9 @@ namespace InteropComObjects.IO.Ports {
                 if (selectedPort.IsOpen)
                     selectedPort.Close();
 
-                selectedPort.DataReceived += ((sender, e) => {
-                    try {
-                        DataReceived(sender, (int)(e.EventType));
-                    } catch (NullReferenceException) { } // no subscription
-                });
-                selectedPort.ErrorReceived += ((sender, e) => {
-                    try {
-                        ErrorReceived(sender, (int)(e.EventType));
-                    } catch (NullReferenceException) { } // no subscription
-                });
-                selectedPort.PinChanged += ((sender, e) => {
-                    try {
-                        PinChanged(sender, (int)(e.EventType));
-                    } catch (NullReferenceException) { } // no subscription
-                });
+                selectedPort.DataReceived += OnSelectedPortDataReceived;
+                selectedPort.ErrorReceived += OnSelectedPortErrorReceived;
+                selectedPort.PinChanged += OnSelectedPortPinChanged;
                 // pass the possible exceptions up transparently - no handling here
                 selectedPort.Open();
             }
@@ -78,7 +66,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public void Close() {
             if (selectedPort != null && selectedPort.IsOpen) {
+                selectedPort.DataReceived -= OnSelectedPortDataReceived;
+                selectedPort.ErrorReceived -= OnSelectedPortErrorReceived;
+                selectedPort.PinChanged -= OnSelectedPortPinChanged;
                 selectedPort.Close();
+                selectedPort.Dispose();
             }
         }
         /// <summary>Discards data from the serial driver's receive buffer.
@@ -586,6 +578,33 @@ namespace InteropComObjects.IO.Ports {
             String result = string.Empty;
             errors.TryGetValue(errorId, out result);
             return result;
+        }
+        /// <summary>Invokes the PinChanged-Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSelectedPortPinChanged(object sender, SerialPinChangedEventArgs e) {
+            try {
+                PinChanged(sender, (int)(e.EventType));
+            } catch (NullReferenceException) { } // no subscription
+        }
+        /// <summary>Invokes the ErrorReceived-Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSelectedPortErrorReceived(object sender, SerialErrorReceivedEventArgs e) {
+            try {
+                ErrorReceived(sender, (int)(e.EventType));
+            } catch (NullReferenceException) { } // no subscription
+        }
+        /// <summary>Invokes the DataReceived-Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSelectedPortDataReceived(object sender, SerialDataReceivedEventArgs e) {
+            try {
+                DataReceived(sender, (int)(e.EventType));
+            } catch (NullReferenceException) { } // no subscription
         }
     }
 }
