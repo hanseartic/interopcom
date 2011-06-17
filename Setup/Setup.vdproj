@@ -33,14 +33,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9284851B1FC1910EA8E0B48F897A6A62"
+        "OwnerKey" = "8:_1F6F98C330CE49699FCA3BCC4F567359"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C10FC7A48FA22AF178855D32EE4ED8C6"
         "OwnerKey" = "8:_2F17D7CCB261443695A573138FB5A485"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F8A8CC9B43298ED4807B8D5D7993A151"
-        "OwnerKey" = "8:_1F6F98C330CE49699FCA3BCC4F567359"
+        "MsmKey" = "8:_D05BD9402C79491F83ECB8CD485FFC69"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -180,6 +186,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9284851B1FC1910EA8E0B48F897A6A62"
+            {
+            "SourcePath" = "8:SerialPort.tlb"
+            "TargetName" = "8:SerialPort.tlb"
+            "Tag" = "8:"
+            "Folder" = "8:_26457A67F8BE41D1A9810C16746F5679"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C10FC7A48FA22AF178855D32EE4ED8C6"
             {
             "AssemblyRegister" = "3:1"
@@ -211,10 +237,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F8A8CC9B43298ED4807B8D5D7993A151"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D05BD9402C79491F83ECB8CD485FFC69"
             {
-            "SourcePath" = "8:SerialPort.tlb"
-            "TargetName" = "8:SerialPort.tlb"
+            "SourcePath" = "8:License.rtf"
+            "TargetName" = "8:License.rtf"
             "Tag" = "8:"
             "Folder" = "8:_26457A67F8BE41D1A9810C16746F5679"
             "Condition" = "8:"
@@ -226,9 +252,9 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -266,7 +292,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Silverlight COM interop objects"
         "ProductCode" = "8:{94334B4D-4037-4DBA-9B4C-27640ABBB5C6}"
-        "PackageCode" = "8:{6A5E24BD-BEAE-4345-BD4B-9DC4C45A23E2}"
+        "PackageCode" = "8:{3CB5F7E1-9B33-42B7-8D02-FC7650892E79}"
         "UpgradeCode" = "8:{5223F00D-7DDA-415D-A281-7500B96BB4DF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -791,7 +817,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_03E6F6F2C62049E8ADEA1F43AB8158D0"
                     {
-                    "Sequence" = "3:110"
+                    "Sequence" = "3:200"
                     "DisplayName" = "8:Fertig"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -820,6 +846,53 @@
                             "Setting" = "3:1"
                             "Value" = "8:#1258"
                             "DefaultValue" = "8:#1258"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                        }
+                    }
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C1A56D9C07114A1687095FEF08CAA1E8"
+                    {
+                    "Sequence" = "3:110"
+                    "DisplayName" = "8:Lizenzvertrag"
+                    "UseDynamicProperties" = "11:TRUE"
+                    "IsDependency" = "11:FALSE"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdLicenseDlg.wid"
+                        "Properties"
+                        {
+                            "BannerBitmap"
+                            {
+                            "Name" = "8:BannerBitmap"
+                            "DisplayName" = "8:#1001"
+                            "Description" = "8:#1101"
+                            "Type" = "3:8"
+                            "ContextData" = "8:Bitmap"
+                            "Attributes" = "3:4"
+                            "Setting" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "EulaText"
+                            {
+                            "Name" = "8:EulaText"
+                            "DisplayName" = "8:#1008"
+                            "Description" = "8:#1108"
+                            "Type" = "3:6"
+                            "ContextData" = "8:"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:2"
+                            "Value" = "8:_D05BD9402C79491F83ECB8CD485FFC69"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "Sunken"
+                            {
+                            "Name" = "8:Sunken"
+                            "DisplayName" = "8:#1007"
+                            "Description" = "8:#1107"
+                            "Type" = "3:5"
+                            "ContextData" = "8:4;True=4;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:4"
+                            "DefaultValue" = "3:4"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
