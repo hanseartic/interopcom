@@ -52,7 +52,6 @@ namespace InteropComObjects.IO.Ports {
             if (null != selectedPort) {
                 if (selectedPort.IsOpen)
                     selectedPort.Close();
-
                 selectedPort.DataReceived += OnSelectedPortDataReceived;
                 selectedPort.ErrorReceived += OnSelectedPortErrorReceived;
                 selectedPort.PinChanged += OnSelectedPortPinChanged;
@@ -290,7 +289,7 @@ namespace InteropComObjects.IO.Ports {
             }
             set {
                 if (selectedPort != null) selectedPort.DataBits = value;
-                throw new InvalidOperationException("No active port.");
+                else throw new InvalidOperationException("No active port.");
             }
         }
         /// <summary>Gets or sets a value indicating whether null bytes are ignored
@@ -551,15 +550,12 @@ namespace InteropComObjects.IO.Ports {
         public object GetDevice(int deviceNumber) {
             return portNames[deviceNumber];
         }
-        /// <summary>An event to enable the Sleep-timer
-        /// </summary>
-        private readonly AutoResetEvent sleepAutoResetEvent = new AutoResetEvent(false);
         /// <summary>Provides a blocking sleep-method that waits the given 
         /// number of milliseconds before returning.
         /// </summary>
         /// <param name="length">The number of milliseconds to wait.</param>
         public void Sleep(int length) {
-            sleepAutoResetEvent.WaitOne(length);
+            Thread.Sleep(length);
         }
         /// <summary>Gets or sets the serial port to use
         /// </summary>
