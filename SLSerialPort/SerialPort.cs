@@ -413,8 +413,18 @@ namespace System.IO.Ports {
         /// <exception cref="ArgumentException">offset plus count is greater than the length of the buffer</exception>
         /// <exception cref="TimeoutException">The operation did not complete before the time-out period ended</exception>
         public void Write(byte[] buffer, int offset, int count) {
-            if (null != serialPort) serialPort.Write(buffer, offset, count);
-            else throw new InteropException();
+            if (null == buffer)
+                throw new ArgumentNullException("buffer", "The buffer passed is null.");
+            if (count + offset > buffer.Length)
+                throw new ArgumentException("Offset plus count is greater than the length of the buffer.");
+            if (count < 0 || offset < 0) {
+                var pname = count < 0 ? "count" : "offset";
+                throw new ArgumentOutOfRangeException(pname,
+                                                      pname.Substring(0, 1).ToUpper() + pname.Substring(1) +
+                                                      " is less than zero.");
+            }
+            if (null == serialPort) throw new InteropException();
+            serialPort.Write(buffer, offset, count);
         }
         /// <summary>Writes a specified number of characters to the serial port using data from a buffer.
         /// </summary>
@@ -437,20 +447,19 @@ namespace System.IO.Ports {
                                                       pname.Substring(0, 1).ToUpper() + pname.Substring(1) +
                                                       " is less than zero.");
             }
-            
-            if (null != serialPort) {
-                var bBuffer = new byte[count];
-                int bCounter = 0;
-                foreach (var bufferChar in buffer) {
-                    if (offset-- > 0) 
-                        continue;
-                    if (count-- <= 0)
-                        break;
-                    bBuffer[bCounter++] = Convert.ToByte(bufferChar);
-                }
-                serialPort.Write(bBuffer, 0, bBuffer.Length);
+            if (null == serialPort) throw new InteropException();
+
+            var bBuffer = new byte[count];
+            int bCounter = 0;
+            foreach (var bufferChar in buffer) {
+                if (offset-- > 0)
+                    continue;
+                if (count-- <= 0)
+                    break;
+                bBuffer[bCounter++] = Convert.ToByte(bufferChar);
             }
-            else throw new InteropException();
+            serialPort.Write(bBuffer, 0, bBuffer.Length);
+            
         }
         /// <summary>Writes the specified string to the serial port.
         /// </summary>

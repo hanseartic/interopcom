@@ -64,7 +64,7 @@ namespace InteropComObjects.IO.Ports {
         ///  and disposes of the internal <see cref="System.IO.Stream"/> object.
         /// </summary>
         public void Close() {
-            if (selectedPort != null && selectedPort.IsOpen) {
+            if (null != selectedPort && selectedPort.IsOpen) {
                 selectedPort.DataReceived -= OnSelectedPortDataReceived;
                 selectedPort.ErrorReceived -= OnSelectedPortErrorReceived;
                 selectedPort.PinChanged -= OnSelectedPortPinChanged;
@@ -76,13 +76,13 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public void DiscardInBuffer() {
             if (null != selectedPort) selectedPort.DiscardInBuffer();
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         /// <summary>Discards data from the serial driver's transmit buffer.
         /// </summary>
         public void DiscardOutBuffer() {
             if (null != selectedPort) selectedPort.DiscardOutBuffer();
-            throw new InvalidOperationException("No active port.");
+            else throw new InvalidOperationException("No active port.");
         }
         /// <summary>Synchronously reads one byte from the <see cref="System.IO.Ports.SerialPort"/>
         /// input buffer.
@@ -284,11 +284,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int DataBits {
             get {
-                if (selectedPort != null) return selectedPort.DataBits;
+                if (null != selectedPort) return selectedPort.DataBits;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.DataBits = value;
+                if (null != selectedPort) selectedPort.DataBits = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -297,11 +297,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public bool DiscardNull {
             get {
-                if (selectedPort != null) return selectedPort.DiscardNull;
+                if (null != selectedPort) return selectedPort.DiscardNull;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.DiscardNull = value;
+                if (null != selectedPort) selectedPort.DiscardNull = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -309,7 +309,7 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public bool DsrHolding {
             get {
-                if (selectedPort != null) return selectedPort.DsrHolding;
+                if (null != selectedPort) return selectedPort.DsrHolding;
                 throw new InvalidOperationException("No active port.");
             }
         }
@@ -318,11 +318,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public bool DtrEnable {
             get {
-                if (selectedPort != null) return selectedPort.DtrEnable;
+                if (null != selectedPort) return selectedPort.DtrEnable;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.DtrEnable = value;
+                if (null != selectedPort) selectedPort.DtrEnable = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -331,11 +331,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public Encoding Encoding {
             get {
-                if (selectedPort != null) return selectedPort.Encoding;
+                if (null != selectedPort) return selectedPort.Encoding;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.Encoding = value;
+                if (null != selectedPort) selectedPort.Encoding = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -350,11 +350,11 @@ namespace InteropComObjects.IO.Ports {
         /// </remarks>
         public String Handshake {
             get {
-                if (selectedPort != null) return selectedPort.Handshake.ToString();
+                if (null != selectedPort) return selectedPort.Handshake.ToString();
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) {
+                if (null != selectedPort) {
                     Handshake result;
                     Enum.TryParse<Handshake>(value, out result);
                     selectedPort.Handshake = result;
@@ -367,7 +367,7 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public bool IsOpen {
             get {
-                if (selectedPort != null) return selectedPort.IsOpen;
+                if (null != selectedPort) return selectedPort.IsOpen;
                 throw new InvalidOperationException("No active port.");
             }
         }
@@ -377,11 +377,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public string NewLine {
             get {
-                if (selectedPort != null) return selectedPort.NewLine;
+                if (null != selectedPort) return selectedPort.NewLine;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.NewLine = value;
+                if (null != selectedPort) selectedPort.NewLine = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -394,13 +394,13 @@ namespace InteropComObjects.IO.Ports {
         /// <value>Mark</value>,
         /// <value>Space</value>
         /// </remarks>
-        public String Parity {
+        public string Parity {
             get {
-                if (selectedPort != null) return selectedPort.Parity.ToString();
+                if (null != selectedPort) return selectedPort.Parity.ToString();
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) {
+                if (null != selectedPort) {
                     Parity result;
                     Enum.TryParse(value, out result);
                     selectedPort.Parity = result;
@@ -413,11 +413,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public byte ParityReplace {
             get {
-                if (selectedPort != null) return selectedPort.ParityReplace;
+                if (null != selectedPort) return selectedPort.ParityReplace;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.ParityReplace = value;
+                if (null != selectedPort) selectedPort.ParityReplace = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -439,11 +439,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int ReadBufferSize {
             get {
-                if (selectedPort != null) return selectedPort.ReadBufferSize;
+                if (null != selectedPort) return selectedPort.ReadBufferSize;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.ReadBufferSize = value;
+                if (null != selectedPort) selectedPort.ReadBufferSize = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -452,11 +452,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int ReadTimeout {
             get {
-                if (selectedPort != null) return selectedPort.ReadTimeout;
+                if (null != selectedPort) return selectedPort.ReadTimeout;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.ReadTimeout = value;
+                if (null != selectedPort) selectedPort.ReadTimeout = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -464,11 +464,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int ReceivedBytesThreshold {
             get {
-                if (selectedPort != null) return selectedPort.ReceivedBytesThreshold;
+                if (null != selectedPort) return selectedPort.ReceivedBytesThreshold;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.ReceivedBytesThreshold = value;
+                if (null != selectedPort) selectedPort.ReceivedBytesThreshold = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -477,11 +477,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public bool RtsEnable {
             get {
-                if (selectedPort != null) return selectedPort.RtsEnable;
+                if (null != selectedPort) return selectedPort.RtsEnable;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.RtsEnable = value;
+                if (null != selectedPort) selectedPort.RtsEnable = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -493,13 +493,13 @@ namespace InteropComObjects.IO.Ports {
         /// <value>Two</value>,
         /// <value>OnePointFive</value>
         /// </remarks>
-        public String StopBits {
+        public string StopBits {
             get {
-                if (selectedPort != null) return selectedPort.StopBits.ToString();
+                if (null != selectedPort) return selectedPort.StopBits.ToString();
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) {
+                if (null != selectedPort) {
                     StopBits result;
                     Enum.TryParse<StopBits>(value, out result);
                     selectedPort.StopBits = result;
@@ -511,11 +511,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int WriteBufferSize {
             get {
-                if (selectedPort != null) return selectedPort.WriteBufferSize;
+                if (null != selectedPort) return selectedPort.WriteBufferSize;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.WriteBufferSize = value;
+                if (null != selectedPort) selectedPort.WriteBufferSize = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
@@ -524,11 +524,11 @@ namespace InteropComObjects.IO.Ports {
         /// </summary>
         public int WriteTimeout {
             get {
-                if (selectedPort != null) return selectedPort.WriteTimeout;
+                if (null != selectedPort) return selectedPort.WriteTimeout;
                 throw new InvalidOperationException("No active port.");
             }
             set {
-                if (selectedPort != null) selectedPort.WriteTimeout = value;
+                if (null != selectedPort) selectedPort.WriteTimeout = value;
                 else throw new InvalidOperationException("No active port.");
             }
         }
